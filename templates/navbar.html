@@ -1,0 +1,72 @@
+<!-- templates/navbar.html -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        
+            <i class="fas fa-graduation-cap me-2"></i>LMS Platform
+        </a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    
+                        <i class="fas fa-home me-1"></i> Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                   
+                    <i class="fas fa-book me-1"></i> Courses
+                    </a>
+                </li>
+                {% if user.is_authenticated %}
+                    {% if user.is_instructor %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if 'courses/create' in request.path %}active{% endif %}" href="{% url 'courses:create' %}">
+                            <i class="fas fa-plus-circle me-1"></i> Create Course
+                        </a>
+                    </li>
+                    {% endif %}
+                {% endif %}
+            </ul>
+            
+            <!-- Search Form -->
+           
+            <input class="form-control me-2" type="search" placeholder="Search courses..." name="q">
+                <button class="btn btn-light" type="submit"><i class="fas fa-search"></i></button>
+            </form>
+            
+            <ul class="navbar-nav">
+                {% if user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle me-1"></i> {{ user.username }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            
+                            <li><hr class="dropdown-divider"></li>
+                            
+                    </li>
+                    <li class="nav-item">
+                            <i class="fas fa-bell"></i>
+                            {% if unread_notifications_count > 0 %}
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{ unread_notifications_count }}
+                                </span>
+                            {% endif %}
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'accounts:login' %}"><i class="fas fa-sign-in-alt me-1"></i> Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'accounts:signup' %}"><i class="fas fa-user-plus me-1"></i> Sign Up</a>
+                    </li>
+                {%endif%}
+            </ul>
+        </div>
+    </div>
+</nav>
